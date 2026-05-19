@@ -1,67 +1,399 @@
-# Photo Watermarking (DCT-QIM)
+# Photo Watermarking using DCT-QIM and JPEG Compression
 
-This repository contains a Python script for embedding a binary watermark into an image using block-based DCT and Quantization Index Modulation (QIM), then evaluating robustness against JPEG compression.
+A robust digital image watermarking implementation using:
 
-## Files
+- Discrete Cosine Transform (DCT)
+- Quantization Index Modulation (QIM)
+- JPEG Compression Simulation
 
-- `watermarking.py` – main script that embeds the watermark, compresses the image at several JPEG quality factors, extracts the watermark, and saves output images and a report.
-- `output/` – generated output directory containing processed images, charts, and `evaluation_report.txt`.
+This project embeds a binary watermark into a personal face image and evaluates watermark robustness under various JPEG compression levels.
 
-## Requirements
+---
 
-- Python 3.8+ recommended
-- `opencv-python`
-- `numpy`
-- `matplotlib`
-- `Pillow`
-- `scipy`
+# Project Objective
 
-Install dependencies with pip:
+The objective of this project is to:
+
+- Embed a binary watermark into a face image
+- Preserve visual quality after watermark insertion
+- Test watermark robustness against JPEG compression
+- Determine the Quality Factor (QF) threshold where the watermark can no longer be extracted correctly
+
+---
+
+# Watermarking Workflow
+
+The complete watermarking architecture and workflow:
+
+![Workflow](output/Proses%20Watermarking.png)
+
+---
+
+# Tech Stack
+
+| Component | Technology |
+|---|---|
+| Programming Language | Python |
+| Image Processing | OpenCV |
+| Matrix Computation | NumPy |
+| DCT Transformation | SciPy |
+| Visualization | Matplotlib |
+| Image Utilities | Pillow |
+
+---
+
+# System Architecture
+
+The watermarking system consists of four major stages:
+
+---
+
+# 1. Preparation Stage
+
+## Load Face Image
+
+The system loads a face image (`face.jpg`) and converts it into an RGB matrix.
+
+### File Path
+
+```bash
+output/original.jpg
+```
+
+### Output
+
+![Original Image](output/original.jpg)
+
+---
+
+## Generate Binary Watermark
+
+A 32×32 binary watermark containing the letter **"R"** and a border frame is generated.
+
+### File Path
+
+```bash
+output/generated_watermark.png
+```
+
+### Output
+
+![Generated Watermark](output/generated_watermark.png)
+
+---
+
+## Flatten Watermark into 1D Bitstream
+
+The binary watermark image is flattened into a sequence of bits for embedding.
+
+---
+
+## Convert RGB → YCbCr
+
+The image is converted into the YCbCr color space.
+Only the luminance channel (Y) is used for watermark embedding.
+
+### File Path
+
+```bash
+output/y_channel.png
+```
+
+### Output
+
+![Y Channel](output/y_channel.png)
+
+---
+
+# 2. Embedding Stage
+
+## Divide Image into 8×8 Blocks
+
+The luminance channel is divided into non-overlapping 8×8 blocks.
+
+---
+
+## Apply 2D DCT
+
+Each block undergoes a 2D Discrete Cosine Transform.
+
+---
+
+## Watermark Embedding using QIM
+
+The watermark bits are embedded into selected mid-frequency DCT coefficients using Quantization Index Modulation.
+
+This balances:
+
+- Imperceptibility
+- Robustness
+- Compression resistance
+
+---
+
+## Inverse DCT Reconstruction
+
+The modified image is reconstructed using inverse DCT.
+
+### File Path
+
+```bash
+output/watermarked.png
+```
+
+### Output
+
+![Watermarked Image](output/watermarked.png)
+
+---
+
+# 3. JPEG Compression Simulation
+
+The watermarked image is compressed using multiple JPEG Quality Factors.
+
+---
+
+## Compression Result — QF 90
+
+### File Path
+
+```bash
+output/compressed_qf90.jpg
+```
+
+### Output
+
+![QF90](output/compressed_qf90.jpg)
+
+---
+
+## Compression Result — QF 70
+
+### File Path
+
+```bash
+output/compressed_qf70.jpg
+```
+
+### Output
+
+![QF70](output/compressed_qf70.jpg)
+
+---
+
+## Compression Result — QF 50
+
+### File Path
+
+```bash
+output/compressed_qf50.jpg
+```
+
+### Output
+
+![QF50](output/compressed_qf50.jpg)
+
+---
+
+## Compression Result — QF 30
+
+### File Path
+
+```bash
+output/compressed_qf30.jpg
+```
+
+### Output
+
+![QF30](output/compressed_qf30.jpg)
+
+---
+
+## Compression Result — QF 10
+
+### File Path
+
+```bash
+output/compressed_qf10.jpg
+```
+
+### Output
+
+![QF10](output/compressed_qf10.jpg)
+
+---
+
+# 4. Watermark Extraction Stage
+
+For each compressed image:
+
+1. Apply DCT again
+2. Read embedded coefficients
+3. Extract watermark bits
+4. Reconstruct watermark image
+
+---
+
+# Evaluation Result
+
+Comparison between extracted watermarks from all JPEG quality levels.
+
+### File Path
+
+```bash
+output/evaluation_result.png
+```
+
+### Output
+
+![Evaluation Result](output/evaluation_result.png)
+
+---
+
+# Evaluation Metrics
+
+The system evaluates watermark robustness using:
+
+- NC (Normalized Correlation)
+- BER (Bit Error Rate)
+- PSNR (Peak Signal-to-Noise Ratio)
+
+### File Path
+
+```bash
+output/metrics_chart.png
+```
+
+### Output
+
+![Metrics Chart](output/metrics_chart.png)
+
+---
+
+# Experimental Results
+
+| Quality Factor | Extraction Status | Observation |
+|---|---|---|
+| 90 | Success | Watermark very clear |
+| 70 | Success | Watermark clear |
+| 50 | Success | Slight degradation |
+| 30 | Success | Still readable |
+| 10 | Failed | Watermark destroyed |
+
+---
+
+# Key Finding
+
+The watermark remains robust and extractable until:
+
+# ✅ QF = 30
+
+However, at:
+
+# ❌ QF = 10
+
+the JPEG compression becomes too aggressive and destroys the embedded watermark information.
+
+This becomes the breakdown threshold of the proposed watermarking method.
+
+---
+
+# Output Directory
+
+Generated files inside the `output/` folder:
+
+### File Path
+
+```bash
+output/Screenshot 2026-05-19 at 15.28.45.png
+```
+
+
+# Installation
+
+Install required dependencies:
 
 ```bash
 python3 -m pip install opencv-python numpy matplotlib pillow scipy
 ```
 
-## Usage
+---
 
-1. Place the source image in the repository root and name it `face.jpg`.
-2. Run the script:
+# Usage
+
+## 1. Place Your Face Image
+
+Put your image in the project root directory:
+
+```bash
+face.jpg
+```
+
+---
+
+## 2. Run the Script
 
 ```bash
 python3 watermarking.py
 ```
 
-3. The script will generate outputs in the `output/` folder:
-   - `original.jpg` – original input image
-   - `watermarked.png` – image after watermark embedding
-   - `compressed_qf{QF}.jpg` – JPEG-compressed images for each quality factor
-   - `evaluation_result.png` – comparison figure with watermark extraction results
-   - `metrics_chart.png` – NC/BER plots vs JPEG quality factor
-   - `evaluation_report.txt` – numeric summary report
-   - **`evaluation_report.html`** – comprehensive interactive report with all images, charts, metrics table, and compressed photos embedded
+---
 
-## Notes
+## 3. Open Evaluation Report
 
-- If `face.jpg` is missing, the script automatically creates a dummy face image so the pipeline can still run.
-- The watermark is generated as a 32×32 binary pattern representing the letter `R`.
-- The script evaluates robustness over JPEG quality levels defined in `QF_LIST`.
-
-## Customization
-
-Open `watermarking.py` and edit these values near the top:
-
-- `INPUT_IMAGE` – input filename to watermark
-- `OUTPUT_DIR` – directory where results are saved
-- `BLOCK_SIZE` – block size for DCT (default 8)
-- `ALPHA` – watermark strength
-- `QF_LIST` – JPEG quality factors for testing
-
-## Execution Example
+Interactive HTML report:
 
 ```bash
-python3 watermarking.py
+output/evaluation_report.html
 ```
 
-After running, open:
-- **`output/evaluation_report.html`** – for a beautiful interactive report with all images, charts, metrics table, and compressed photos
-- `output/evaluation_report.txt` – for a text summary of `NC`, `BER`, and watermark validity per JPEG quality factor
+Text summary report:
+
+```bash
+output/evaluation_report.txt
+```
+
+---
+
+# Important Parameters
+
+Inside `watermarking.py`:
+
+```python
+BLOCK_SIZE = 8
+ALPHA = 10
+QF_LIST = [90, 70, 50, 30, 10]
+```
+
+| Parameter | Description |
+|---|---|
+| BLOCK_SIZE | DCT block size |
+| ALPHA | Watermark embedding strength |
+| QF_LIST | JPEG quality factors for evaluation |
+
+---
+
+# Technical Insight
+
+This implementation demonstrates how DCT-domain watermarking can maintain a balance between:
+
+- visual imperceptibility,
+- watermark robustness,
+- and compression resistance.
+
+Using QIM over mid-frequency DCT coefficients provides strong resilience against moderate JPEG compression while preserving image quality.
+
+---
+
+# Conclusion
+
+This project successfully implements a robust watermarking system using DCT-QIM.
+
+Key conclusions:
+
+- The watermark is visually imperceptible
+- The watermark survives moderate JPEG compression
+- The extraction process remains reliable until QF = 30
+- At QF = 10, the watermark becomes unreadable
+
+This validates the effectiveness of DCT-QIM for JPEG-resilient digital image watermarking systems.
