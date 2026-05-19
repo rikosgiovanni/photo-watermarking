@@ -25,7 +25,9 @@ The objective of this project is to:
 
 The complete watermarking architecture and workflow:
 
-![Workflow](ProsesWatermarking.png)
+<p align="center">
+  <img src="ProsesWatermarking.png" width="650"/>
+</p>
 
 ---
 
@@ -54,15 +56,9 @@ The watermarking system consists of four major stages:
 
 The system loads a face image (`face.jpg`) and converts it into an RGB matrix.
 
-### File Path
-
-```bash
-output/original.jpg
-```
-
-### Output
-
-![Original Image](output/original.jpg)
+<p align="center">
+  <img src="output/original.jpg" width="250"/>
+</p>
 
 ---
 
@@ -83,6 +79,7 @@ The binary watermark image is flattened into a sequence of bits for embedding.
 The image is converted into the YCbCr color space.
 Only the luminance channel (Y) is used for watermark embedding.
 
+---
 
 # 2. Embedding Stage
 
@@ -113,7 +110,10 @@ This balances:
 ## Inverse DCT Reconstruction
 
 The modified image is reconstructed using inverse DCT.
-![Watermarked Image](output/watermarked.png)
+
+<p align="center">
+  <img src="output/watermarked.png" width="250"/>
+</p>
 
 ---
 
@@ -123,24 +123,26 @@ The watermarked image is compressed using multiple JPEG Quality Factors.
 
 ---
 
-## JPEG Compression Results and Watermark Evaluation
+# JPEG Compression Results and Watermark Evaluation
 
 | QF | Output | NC | BER | PSNR (dB) | Status |
 |---|---|---|---|---|---|
-| 90 | ![QF90](output/compressed_qf90.jpg) | 1.0000 | 0.0000 | 52.32 | VALID ✓ |
-| 70 | ![QF70](output/compressed_qf70.jpg) | 1.0000 | 0.0000 | 45.02 | VALID ✓ |
-| 50 | ![QF50](output/compressed_qf50.jpg) | 1.0000 | 0.0000 | 42.65 | VALID ✓ |
-| 30 | ![QF30](output/compressed_qf30.jpg) | 0.6094 | 0.1953 | 39.32 | VALID ✓ |
-| 10 | ![QF10](output/compressed_qf10.jpg) | 0.3223 | 0.3389 | 32.37 | RUSAK ✗ |
+| 90 | <img src="output/compressed_qf90.jpg" width="90"/> | 1.0000 | 0.0000 | 52.32 | VALID ✓ |
+| 70 | <img src="output/compressed_qf70.jpg" width="90"/> | 1.0000 | 0.0000 | 45.02 | VALID ✓ |
+| 50 | <img src="output/compressed_qf50.jpg" width="90"/> | 1.0000 | 0.0000 | 42.65 | VALID ✓ |
+| 30 | <img src="output/compressed_qf30.jpg" width="90"/> | 0.6094 | 0.1953 | 39.32 | VALID ✓ |
+| 10 | <img src="output/compressed_qf10.jpg" width="90"/> | 0.3223 | 0.3389 | 32.37 | RUSAK ✗ |
 
 ---
 
-## Evaluation Summary
+# Evaluation Summary
 
 - ✅ Watermark remains robust and extractable until **QF = 30**
 - ❌ Watermark becomes damaged and unreadable starting from **QF = 10**
 - 📈 Higher QF preserves watermark integrity and image quality better
 - 📉 Lower QF introduces stronger JPEG compression artifacts that damage embedded DCT coefficients
+
+---
 
 # 4. Watermark Extraction Stage
 
@@ -157,7 +159,9 @@ For each compressed image:
 
 Comparison between extracted watermarks from all JPEG quality levels.
 
-![Evaluation Result](output/evaluation_result.png)
+<p align="center">
+  <img src="output/evaluation_result.png" width="700"/>
+</p>
 
 ---
 
@@ -169,7 +173,9 @@ The system evaluates watermark robustness using:
 - BER (Bit Error Rate)
 - PSNR (Peak Signal-to-Noise Ratio)
 
-![Metrics Chart](output/metrics_chart.png)
+<p align="center">
+  <img src="output/metrics_chart.png" width="600"/>
+</p>
 
 ---
 
@@ -200,17 +206,6 @@ the JPEG compression becomes too aggressive and destroys the embedded watermark 
 This becomes the breakdown threshold of the proposed watermarking method.
 
 ---
-
-# Output Directory
-
-Generated files inside the `output/` folder:
-
-### File Path
-
-```bash
-output/Screenshot 2026-05-19 at 15.28.45.png
-```
-
 
 # Installation
 
@@ -264,7 +259,7 @@ Inside `watermarking.py`:
 
 ```python
 BLOCK_SIZE = 8
-ALPHA = 10
+ALPHA = 25
 QF_LIST = [90, 70, 50, 30, 10]
 ```
 
