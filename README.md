@@ -1,29 +1,29 @@
-# Photo Watermarking using DCT-QIM and JPEG Compression
+# Watermarking Foto Menggunakan DCT-QIM dan Kompresi JPEG
 
-A robust digital image watermarking implementation using:
+Implementasi watermarking citra digital yang robust menggunakan:
 
 - Discrete Cosine Transform (DCT)
 - Quantization Index Modulation (QIM)
-- JPEG Compression Simulation
+- Simulasi Kompresi JPEG
 
-This project embeds a binary watermark into a personal face image and evaluates watermark robustness under various JPEG compression levels.
-
----
-
-# Project Objective
-
-The objective of this project is to:
-
-- Embed a binary watermark into a face image
-- Preserve visual quality after watermark insertion
-- Test watermark robustness against JPEG compression
-- Determine the Quality Factor (QF) threshold where the watermark can no longer be extracted correctly
+Proyek ini menyisipkan watermark biner ke dalam foto wajah pribadi dan mengevaluasi ketahanan watermark terhadap berbagai tingkat kompresi JPEG.
 
 ---
 
-# Watermarking Workflow
+# Tujuan Proyek
 
-The complete watermarking architecture and workflow:
+Tujuan dari proyek ini adalah:
+
+- Menyisipkan watermark biner ke dalam foto wajah
+- Menjaga kualitas visual setelah proses watermarking
+- Menguji ketahanan watermark terhadap kompresi JPEG
+- Menentukan batas nilai Quality Factor (QF) ketika watermark tidak dapat diekstrak kembali dengan benar
+
+---
+
+# Alur Watermarking
+
+Arsitektur dan workflow lengkap sistem watermarking:
 
 <p align="center">
   <img src="ProsesWatermarking.png" width="650"/>
@@ -31,30 +31,30 @@ The complete watermarking architecture and workflow:
 
 ---
 
-# Tech Stack
+# Teknologi yang Digunakan
 
-| Component | Technology |
+| Komponen | Teknologi |
 |---|---|
-| Programming Language | Python |
-| Image Processing | OpenCV |
-| Matrix Computation | NumPy |
-| DCT Transformation | SciPy |
-| Visualization | Matplotlib |
-| Image Utilities | Pillow |
+| Bahasa Pemrograman | Python |
+| Pengolahan Citra | OpenCV |
+| Komputasi Matriks | NumPy |
+| Transformasi DCT | SciPy |
+| Visualisasi | Matplotlib |
+| Utilitas Gambar | Pillow |
 
 ---
 
-# System Architecture
+# Arsitektur Sistem
 
-The watermarking system consists of four major stages:
+Sistem watermarking terdiri dari empat tahap utama:
 
 ---
 
-# 1. Preparation Stage
+# 1. Tahap Persiapan
 
-## Load Face Image
+## Memuat Foto Wajah
 
-The system loads a face image (`face.jpg`) and converts it into an RGB matrix.
+Sistem memuat foto wajah (`face.jpg`) dan mengubahnya menjadi matriks RGB.
 
 <p align="center">
   <img src="output/original.jpg" width="250"/>
@@ -62,54 +62,54 @@ The system loads a face image (`face.jpg`) and converts it into an RGB matrix.
 
 ---
 
-## Generate Binary Watermark
+## Membuat Watermark Biner
 
-A 32×32 binary watermark containing the letter **"R"** and a border frame is generated.
-
----
-
-## Flatten Watermark into 1D Bitstream
-
-The binary watermark image is flattened into a sequence of bits for embedding.
+Watermark biner berukuran 32×32 yang berisi huruf **"R"** beserta border dibuat secara otomatis.
 
 ---
 
-## Convert RGB → YCbCr
+## Mengubah Watermark Menjadi Bitstream 1D
 
-The image is converted into the YCbCr color space.
-Only the luminance channel (Y) is used for watermark embedding.
-
----
-
-# 2. Embedding Stage
-
-## Divide Image into 8×8 Blocks
-
-The luminance channel is divided into non-overlapping 8×8 blocks.
+Citra watermark biner diubah menjadi deretan bit untuk proses embedding.
 
 ---
 
-## Apply 2D DCT
+## Konversi RGB → YCbCr
 
-Each block undergoes a 2D Discrete Cosine Transform.
-
----
-
-## Watermark Embedding using QIM
-
-The watermark bits are embedded into selected mid-frequency DCT coefficients using Quantization Index Modulation.
-
-This balances:
-
-- Imperceptibility
-- Robustness
-- Compression resistance
+Gambar dikonversi ke ruang warna YCbCr.
+Hanya channel luminance (Y) yang digunakan untuk proses watermarking.
 
 ---
 
-## Inverse DCT Reconstruction
+# 2. Tahap Embedding
 
-The modified image is reconstructed using inverse DCT.
+## Membagi Gambar Menjadi Blok 8×8
+
+Channel luminance dibagi menjadi blok-blok 8×8 yang tidak saling overlap.
+
+---
+
+## Menerapkan DCT 2D
+
+Setiap blok diproses menggunakan transformasi 2D Discrete Cosine Transform.
+
+---
+
+## Penyisipan Watermark Menggunakan QIM
+
+Bit watermark disisipkan pada koefisien DCT frekuensi menengah menggunakan metode Quantization Index Modulation.
+
+Metode ini menjaga keseimbangan antara:
+
+- Imperceptibility (watermark tidak terlihat)
+- Robustness (ketahanan watermark)
+- Compression resistance (ketahanan terhadap kompresi)
+
+---
+
+## Rekonstruksi Menggunakan Inverse DCT
+
+Gambar yang telah dimodifikasi direkonstruksi kembali menggunakan inverse DCT.
 
 <p align="center">
   <img src="output/watermarked.png" width="250"/>
@@ -117,13 +117,13 @@ The modified image is reconstructed using inverse DCT.
 
 ---
 
-# 3. JPEG Compression Simulation
+# 3. Simulasi Kompresi JPEG
 
-The watermarked image is compressed using multiple JPEG Quality Factors.
+Gambar yang telah diberi watermark dikompresi menggunakan beberapa nilai JPEG Quality Factor.
 
 ---
 
-# JPEG Compression Results and Watermark Evaluation
+# Hasil Kompresi JPEG dan Evaluasi Watermark
 
 | QF | Output | NC | BER | PSNR (dB) | Status |
 |---|---|---|---|---|---|
@@ -135,29 +135,29 @@ The watermarked image is compressed using multiple JPEG Quality Factors.
 
 ---
 
-# Evaluation Summary
+# Ringkasan Evaluasi
 
-- ✅ Watermark remains robust and extractable until **QF = 30**
-- ❌ Watermark becomes damaged and unreadable starting from **QF = 10**
-- 📈 Higher QF preserves watermark integrity and image quality better
-- 📉 Lower QF introduces stronger JPEG compression artifacts that damage embedded DCT coefficients
-
----
-
-# 4. Watermark Extraction Stage
-
-For each compressed image:
-
-1. Apply DCT again
-2. Read embedded coefficients
-3. Extract watermark bits
-4. Reconstruct watermark image
+- ✅ Watermark masih dapat diekstrak dengan baik hingga **QF = 30**
+- ❌ Watermark mulai rusak dan tidak dapat dibaca pada **QF = 10**
+- 📈 Nilai QF tinggi mempertahankan kualitas gambar dan watermark lebih baik
+- 📉 Nilai QF rendah menghasilkan artefak kompresi JPEG yang merusak koefisien DCT tempat watermark disisipkan
 
 ---
 
-# Evaluation Result
+# 4. Tahap Ekstraksi Watermark
 
-Comparison between extracted watermarks from all JPEG quality levels.
+Untuk setiap gambar hasil kompresi:
+
+1. DCT diterapkan kembali
+2. Koefisien watermark dibaca
+3. Bit watermark diekstrak
+4. Watermark direkonstruksi kembali menjadi citra utuh
+
+---
+
+# Hasil Ekstraksi Watermark
+
+Perbandingan hasil ekstraksi watermark dari setiap tingkat kompresi JPEG.
 
 <p align="center">
   <img src="output/evaluation_result.png" width="700"/>
@@ -165,9 +165,9 @@ Comparison between extracted watermarks from all JPEG quality levels.
 
 ---
 
-# Evaluation Metrics
+# Metrik Evaluasi
 
-The system evaluates watermark robustness using:
+Sistem mengevaluasi ketahanan watermark menggunakan:
 
 - NC (Normalized Correlation)
 - BER (Bit Error Rate)
@@ -179,37 +179,37 @@ The system evaluates watermark robustness using:
 
 ---
 
-# Experimental Results
+# Hasil Eksperimen
 
-| Quality Factor | Extraction Status | Observation |
+| Quality Factor | Status Ekstraksi | Observasi |
 |---|---|---|
-| 90 | Success | Watermark very clear |
-| 70 | Success | Watermark clear |
-| 50 | Success | Slight degradation |
-| 30 | Success | Still readable |
-| 10 | Failed | Watermark destroyed |
+| 90 | Berhasil | Watermark sangat jelas |
+| 70 | Berhasil | Watermark jelas |
+| 50 | Berhasil | Sedikit degradasi |
+| 30 | Berhasil | Masih dapat dibaca |
+| 10 | Gagal | Watermark hancur |
 
 ---
 
-# Key Finding
+# Temuan Utama
 
-The watermark remains robust and extractable until:
+Watermark masih robust dan dapat diekstrak hingga:
 
 # ✅ QF = 30
 
-However, at:
+Namun pada:
 
 # ❌ QF = 10
 
-the JPEG compression becomes too aggressive and destroys the embedded watermark information.
+kompresi JPEG menjadi terlalu agresif dan merusak informasi watermark yang disisipkan.
 
-This becomes the breakdown threshold of the proposed watermarking method.
+Hal ini menjadi titik breakdown dari metode watermarking yang digunakan.
 
 ---
 
-# Installation
+# Instalasi
 
-Install required dependencies:
+Install dependency yang dibutuhkan:
 
 ```bash
 python3 -m pip install opencv-python numpy matplotlib pillow scipy
@@ -217,11 +217,11 @@ python3 -m pip install opencv-python numpy matplotlib pillow scipy
 
 ---
 
-# Usage
+# Cara Menjalankan
 
-## 1. Place Your Face Image
+## 1. Letakkan Foto Wajah
 
-Put your image in the project root directory:
+Masukkan foto wajah ke root project dengan nama:
 
 ```bash
 face.jpg
@@ -229,7 +229,7 @@ face.jpg
 
 ---
 
-## 2. Run the Script
+## 2. Jalankan Program
 
 ```bash
 python3 watermarking.py
@@ -237,15 +237,15 @@ python3 watermarking.py
 
 ---
 
-## 3. Open Evaluation Report
+## 3. Buka Laporan Evaluasi
 
-Interactive HTML report:
+Laporan HTML interaktif:
 
 ```bash
 output/evaluation_report.html
 ```
 
-Text summary report:
+Laporan teks:
 
 ```bash
 output/evaluation_report.txt
@@ -253,9 +253,9 @@ output/evaluation_report.txt
 
 ---
 
-# Important Parameters
+# Parameter Penting
 
-Inside `watermarking.py`:
+Di dalam `watermarking.py`:
 
 ```python
 BLOCK_SIZE = 8
@@ -263,35 +263,35 @@ ALPHA = 25
 QF_LIST = [90, 70, 50, 30, 10]
 ```
 
-| Parameter | Description |
+| Parameter | Deskripsi |
 |---|---|
-| BLOCK_SIZE | DCT block size |
-| ALPHA | Watermark embedding strength |
-| QF_LIST | JPEG quality factors for evaluation |
+| BLOCK_SIZE | Ukuran blok DCT |
+| ALPHA | Kekuatan embedding watermark |
+| QF_LIST | Nilai JPEG Quality Factor untuk evaluasi |
 
 ---
 
-# Technical Insight
+# Insight Teknis
 
-This implementation demonstrates how DCT-domain watermarking can maintain a balance between:
+Implementasi ini menunjukkan bagaimana watermarking berbasis domain DCT mampu menjaga keseimbangan antara:
 
-- visual imperceptibility,
-- watermark robustness,
-- and compression resistance.
+- kualitas visual,
+- ketahanan watermark,
+- dan resistansi terhadap kompresi.
 
-Using QIM over mid-frequency DCT coefficients provides strong resilience against moderate JPEG compression while preserving image quality.
+Penggunaan QIM pada koefisien DCT frekuensi menengah memberikan ketahanan yang baik terhadap kompresi JPEG moderat tanpa merusak kualitas gambar secara signifikan.
 
 ---
 
-# Conclusion
+# Kesimpulan
 
-This project successfully implements a robust watermarking system using DCT-QIM.
+Proyek ini berhasil mengimplementasikan sistem watermarking yang robust menggunakan DCT-QIM.
 
-Key conclusions:
+Kesimpulan utama:
 
-- The watermark is visually imperceptible
-- The watermark survives moderate JPEG compression
-- The extraction process remains reliable until QF = 30
-- At QF = 10, the watermark becomes unreadable
+- Watermark tidak terlihat secara visual pada gambar
+- Watermark mampu bertahan terhadap kompresi JPEG moderat
+- Proses ekstraksi masih akurat hingga QF = 30
+- Pada QF = 10 watermark sudah tidak dapat dibaca kembali
 
-This validates the effectiveness of DCT-QIM for JPEG-resilient digital image watermarking systems.
+Hal ini membuktikan efektivitas metode DCT-QIM untuk watermarking citra digital yang tahan terhadap kompresi JPEG.
