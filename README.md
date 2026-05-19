@@ -38,6 +38,7 @@ python3 watermarking.py
    - `evaluation_result.png` – comparison figure with watermark extraction results
    - `metrics_chart.png` – NC/BER plots vs JPEG quality factor
    - `evaluation_report.txt` – numeric summary report
+   - **`evaluation_report.html`** – comprehensive interactive report with all images, charts, metrics table, and compressed photos embedded
 
 ## Notes
 
@@ -61,4 +62,6 @@ Open `watermarking.py` and edit these values near the top:
 python3 watermarking.py
 ```
 
-After running, open `output/evaluation_report.txt` for a summary of `NC`, `BER`, and watermark validity per JPEG quality factor.
+After running, open:
+- **`output/evaluation_report.html`** – for a beautiful interactive report with all images, charts, metrics table, and compressed photos
+- `output/evaluation_report.txt` – for a text summary of `NC`, `BER`, and watermark validity per JPEG quality factor
