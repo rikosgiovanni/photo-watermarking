@@ -25,7 +25,7 @@ The objective of this project is to:
 
 The complete watermarking architecture and workflow:
 
-![Workflow](output/Proses%20Watermarking.png)
+![Workflow](ProsesWatermarking.png)
 
 ---
 
@@ -70,16 +70,6 @@ output/original.jpg
 
 A 32×32 binary watermark containing the letter **"R"** and a border frame is generated.
 
-### File Path
-
-```bash
-output/generated_watermark.png
-```
-
-### Output
-
-![Generated Watermark](output/generated_watermark.png)
-
 ---
 
 ## Flatten Watermark into 1D Bitstream
@@ -93,17 +83,6 @@ The binary watermark image is flattened into a sequence of bits for embedding.
 The image is converted into the YCbCr color space.
 Only the luminance channel (Y) is used for watermark embedding.
 
-### File Path
-
-```bash
-output/y_channel.png
-```
-
-### Output
-
-![Y Channel](output/y_channel.png)
-
----
 
 # 2. Embedding Stage
 
@@ -134,15 +113,6 @@ This balances:
 ## Inverse DCT Reconstruction
 
 The modified image is reconstructed using inverse DCT.
-
-### File Path
-
-```bash
-output/watermarked.png
-```
-
-### Output
-
 ![Watermarked Image](output/watermarked.png)
 
 ---
@@ -153,75 +123,24 @@ The watermarked image is compressed using multiple JPEG Quality Factors.
 
 ---
 
-## Compression Result — QF 90
+## JPEG Compression Results and Watermark Evaluation
 
-### File Path
-
-```bash
-output/compressed_qf90.jpg
-```
-
-### Output
-
-![QF90](output/compressed_qf90.jpg)
+| QF | Output | NC | BER | PSNR (dB) | Status |
+|---|---|---|---|---|---|
+| 90 | ![QF90](output/compressed_qf90.jpg) | 1.0000 | 0.0000 | 52.32 | VALID ✓ |
+| 70 | ![QF70](output/compressed_qf70.jpg) | 1.0000 | 0.0000 | 45.02 | VALID ✓ |
+| 50 | ![QF50](output/compressed_qf50.jpg) | 1.0000 | 0.0000 | 42.65 | VALID ✓ |
+| 30 | ![QF30](output/compressed_qf30.jpg) | 0.6094 | 0.1953 | 39.32 | VALID ✓ |
+| 10 | ![QF10](output/compressed_qf10.jpg) | 0.3223 | 0.3389 | 32.37 | RUSAK ✗ |
 
 ---
 
-## Compression Result — QF 70
+## Evaluation Summary
 
-### File Path
-
-```bash
-output/compressed_qf70.jpg
-```
-
-### Output
-
-![QF70](output/compressed_qf70.jpg)
-
----
-
-## Compression Result — QF 50
-
-### File Path
-
-```bash
-output/compressed_qf50.jpg
-```
-
-### Output
-
-![QF50](output/compressed_qf50.jpg)
-
----
-
-## Compression Result — QF 30
-
-### File Path
-
-```bash
-output/compressed_qf30.jpg
-```
-
-### Output
-
-![QF30](output/compressed_qf30.jpg)
-
----
-
-## Compression Result — QF 10
-
-### File Path
-
-```bash
-output/compressed_qf10.jpg
-```
-
-### Output
-
-![QF10](output/compressed_qf10.jpg)
-
----
+- ✅ Watermark remains robust and extractable until **QF = 30**
+- ❌ Watermark becomes damaged and unreadable starting from **QF = 10**
+- 📈 Higher QF preserves watermark integrity and image quality better
+- 📉 Lower QF introduces stronger JPEG compression artifacts that damage embedded DCT coefficients
 
 # 4. Watermark Extraction Stage
 
@@ -238,14 +157,6 @@ For each compressed image:
 
 Comparison between extracted watermarks from all JPEG quality levels.
 
-### File Path
-
-```bash
-output/evaluation_result.png
-```
-
-### Output
-
 ![Evaluation Result](output/evaluation_result.png)
 
 ---
@@ -257,14 +168,6 @@ The system evaluates watermark robustness using:
 - NC (Normalized Correlation)
 - BER (Bit Error Rate)
 - PSNR (Peak Signal-to-Noise Ratio)
-
-### File Path
-
-```bash
-output/metrics_chart.png
-```
-
-### Output
 
 ![Metrics Chart](output/metrics_chart.png)
 
